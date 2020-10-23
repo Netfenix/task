@@ -1,5 +1,7 @@
 package com.init.application.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="accounts")
 public class Account {
@@ -22,7 +33,7 @@ public class Account {
 	private String currency;
 	
 	@Column(name="balance")
-	private int balance;
+	private BigDecimal balance;
 	
 	@Column(name="treasury")
 	private boolean treasury;
@@ -51,11 +62,11 @@ public class Account {
 		this.currency = currency;
 	}
 
-	public int getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(int balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 

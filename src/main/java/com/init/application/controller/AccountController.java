@@ -2,58 +2,65 @@ package com.init.application.controller;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.init.application.dao.AccountDAO;
 import com.init.application.entity.Account;
+import com.init.application.service.AccountService;
 import com.sun.el.stream.Optional;
 
 @RestController
 @RequestMapping("/task")
 public class AccountController {
 	
-	
-		@Autowired
-		private AccountDAO accountDAO;
+	  @Autowired private AccountService accountService;
+	    @RequestMapping("/create")
+	    public List<Account> create(@RequestBody Account account) {
+	        accountService.save(account);
+	        return accountService.findAll();
+	    }
 
-		@GetMapping
-		public ResponseEntity<List<Account>> getAccount(){
-			List<Account> accounts = accountDAO.findAll();
-			
-			return ResponseEntity.ok(accounts);
-			
-		}
+	    @RequestMapping("/all")
+	    public List<Account> all() {
+	        return accountService.findAll();
+	    }
+
+	    @RequestMapping("/sendmoney")
+	    public Response sendMoney(
+	            @RequestBody TransferBalanceRequest transferBalanceRequest
+	            ) {
+
+	        return Response().setPayload(
+	                accountService.sendMoney(
+	                        transferBalanceRequest
+	                )
+	        );
+	    }
+	    @RequestMapping("/statement")
+	    public Response getStatement(
+	            @RequestBody AccountStatementRequest accountStatementRequest
+
+	    ){
+	        return Response.ok().setPayload(
+	                accountService.getStatement(accountStatementRequest.getAccountName())
+	        );
+
+	    }
+
 		
-		@GetMapping("/task/name")
-		public ResponseEntity<Account> findByName(String name) {
-
-			List<Account> list =  accountDAO.findByName(name);
-			
-			Account account = list.get(0);
-			
-			return ResponseEntity.ok(account);
 }
-
-			
-		@PostMapping
-		public ResponseEntity<Account> createAccount(@RequestBody Account account){
-			
-			Account newAccount= accountDAO.save(account);
-			return ResponseEntity.ok(newAccount);
-			
-		}
-			
-		}
 		
 
 

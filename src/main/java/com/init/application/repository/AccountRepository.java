@@ -1,15 +1,12 @@
 package com.init.application.repository;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import com.init.application.entity.Account;
 
-public class AccountRepository {
-	
-	
-	
+@Repository
+public interface AccountRepository extends JpaRepository<Account, Long> {
+    Account findByAccountNameEquals(String accountName);
+
 }
