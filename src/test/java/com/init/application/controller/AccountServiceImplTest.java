@@ -13,8 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.init.application.controller.request.TransferBalanceRequest;
 import com.init.application.entity.Account;
-import com.init.application.service.AccountServiceImpl;
+import com.init.application.service.impl.AccountServiceImpl;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

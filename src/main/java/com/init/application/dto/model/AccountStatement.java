@@ -1,4 +1,4 @@
-package com.init.application.dto;
+package com.init.application.dto.model;
 
 import java.math.BigDecimal;
 import java.util.List;

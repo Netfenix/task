@@ -1,4 +1,4 @@
-package com.init.application.dto;
+package com.init.application.dto.response;
 
 import java.sql.Date;
 

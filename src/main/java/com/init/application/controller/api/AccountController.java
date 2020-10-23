@@ -1,4 +1,4 @@
-package com.init.application.controller;
+package com.init.application.controller.api;
 
 import java.util.List;
 
@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.init.application.dto.Response;
+import com.init.application.controller.request.AccountStatementRequest;
+import com.init.application.controller.request.TransferBalanceRequest;
+import com.init.application.dto.response.Response;
 import com.init.application.entity.Account;
 import com.init.application.service.AccountService;
 import com.sun.el.stream.Optional;
@@ -26,7 +28,11 @@ import com.sun.el.stream.Optional;
 @RequestMapping("/task")
 public class AccountController {
 	
-	  @Autowired private AccountService accountService;
+	  
+	  @Autowired 
+	  private AccountService accountService;
+	  
+	  
 	    @RequestMapping("/create")
 	    public List<Account> create(@RequestBody Account account) {
 	        accountService.save(account);

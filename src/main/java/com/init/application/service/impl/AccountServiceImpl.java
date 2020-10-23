@@ -1,4 +1,4 @@
-package com.init.application.service;
+package com.init.application.service.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -7,12 +7,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.init.application.controller.TransferBalanceRequest;
-import com.init.application.dto.AccountStatement;
+import com.init.application.controller.request.TransferBalanceRequest;
+import com.init.application.dto.model.AccountStatement;
 import com.init.application.entity.Account;
 import com.init.application.entity.Transaction;
 import com.init.application.repository.AccountRepository;
 import com.init.application.repository.TransactionRepository;
+import com.init.application.service.AccountService;
 
 @Service
 public class AccountServiceImpl implements AccountService {

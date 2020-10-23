@@ -1,4 +1,4 @@
-package com.init.application.controller;
+package com.init.application.controller.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
