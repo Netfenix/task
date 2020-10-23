@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findAll();
     }
 
-    public Account findByAccountNumber(String accountName){
+    public Account findByAccountName(String accountName){
         Account account = accountRepository.findByAccountNameEquals(accountName);
         return account;
     }
@@ -44,12 +44,12 @@ public class AccountServiceImpl implements AccountService {
     ) {
     	Transaction transaction = new Transaction();
         String fromAccountName = transferBalanceRequest.getFromAccountName();
-        String toAccountNumber = transferBalanceRequest.getToAccountName();
+        String toAccountName = transferBalanceRequest.getToAccountName();
         BigDecimal amount = transferBalanceRequest.getAmount();
         Account fromAccount = accountRepository.findByAccountNameEquals(
                 fromAccountName
         );
-        Account toAccount = accountRepository.findByAccountNameEquals(toAccountNumber);
+        Account toAccount = accountRepository.findByAccountNameEquals(toAccountName);
         if(fromAccount.getBalance().compareTo(BigDecimal.ONE) == 1
                 && fromAccount.getBalance().compareTo(amount) == 1
         ){
@@ -66,8 +66,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountStatement getStatement(String accountName) {
         Account account = accountRepository.findByAccountNameEquals(accountName);
-        AccountStatement newStatement = new  AccountStatement();
-        return new AccountStatement();
+        AccountStatement statement = new  AccountStatement();
+        List<Transaction> list = statement.getTransactionHistory();
+        AccountStatement newstatement = new  AccountStatement();
+        newstatement.setCurrentBalance(account.getBalance());
+        newstatement.setTransactionHistory(list);
+        
+        return  newstatement;
         		
         		
     }

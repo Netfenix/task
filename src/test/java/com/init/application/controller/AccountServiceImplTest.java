@@ -1,5 +1,8 @@
 package com.init.application.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
+
 import java.math.BigDecimal;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,47 +37,55 @@ public class AccountServiceImplTest {
     public void sendMoneyTest() {
         Account account1 = new Account();
         Account account2 = new Account();
-        account1.setBalance(BigDecimal(50000));
+        account1.setBalance(new BigDecimal(50000));
+        account1.setCurrency("eu");
+        account1.setName("3456");
+        account2.setBalance(new BigDecimal(40000));
+        account2.setCurrency("eu");
+        account2.setName("223456");
         accountService.save(account1);
         accountService.save(account2);
 
-        TransferBalanceRequest transferBalanceRequest =
-                new TransferBalanceRequest(
-                        account1.getAccountName(),
-                        account2.getAccountName(),
-                        new BigDecimal(3000)
-                );
+        TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
+        transferBalanceRequest.setFromAccountName(account1.getName());
+        transferBalanceRequest.setToAccountName(account2.getName());
+        transferBalanceRequest.setAmount(new BigDecimal(3000));
+                ;
         accountService.sendMoney(transferBalanceRequest);
-        assertThat(accountService.findByAccountName(account1.getAccountName())
-                .getCurrentBalance())
+        assertThat(accountService.findByAccountName(account1.getName())
+                .getBalance())
                 .isEqualTo(new BigDecimal(47000));
-        assertThat(accountService.findByAccountName(account2.getAccountName())
-                .getCurrentBalance())
+        assertThat(accountService.findByAccountName(account2.getName())
+                .getBalance())
                 .isEqualTo(new BigDecimal(5000));
 
     }
 
     @Test
     public void getStatement() {
-        Account account1 = new Account(0L, "1001", new BigDecimal(50000));
-        Account account2 = new Account(0L, "2002", new BigDecimal(2000));
+    	 Account account1 = new Account();
+         Account account2 = new Account();
+        account1.setBalance(new BigDecimal(50000));
+        account1.setCurrency("eu");
+        account1.setName("3456");
+        account2.setBalance(new BigDecimal(40000));
+        account2.setCurrency("eu");
+        account2.setName("223456");
         accountService.save(account1);
         accountService.save(account2);
-        TransferBalanceRequest transferBalanceRequest =
-                new TransferBalanceRequest(
-                        account1.getAccountName(),
-                        account2.getAccountName(),
-                        new BigDecimal(3000)
-                );
+        TransferBalanceRequest transferBalanceRequest = new TransferBalanceRequest();
+        transferBalanceRequest.setFromAccountName(account1.getName());
+        transferBalanceRequest.setToAccountName(account2.getName());
+        transferBalanceRequest.setAmount(new BigDecimal(3000));
 
         accountService.sendMoney(transferBalanceRequest);
-        assertThat(accountService.getStatement(account1.getAccountName())
+        assertThat(accountService.getStatement(account1.getName())
                 .getCurrentBalance())
                 .isEqualTo(new BigDecimal(47000));
         accountService.sendMoney(transferBalanceRequest);
-        assertThat(accountService.getStatement(account1.getAccountName())
+        assertThat(accountService.getStatement(account1.getName())
                 .getCurrentBalance()).isEqualTo(new BigDecimal(44000));
-        assertThat(accountService.getStatement(account1.getAccountName())
+        assertThat(accountService.getStatement(account1.getName())
                 .getTransactionHistory().size()).isEqualTo(2);
     }
 

@@ -21,7 +21,8 @@ public class AccountStatement {
     BigDecimal currentBalance;    
     List<Transaction> transactionHistory;
     
-    public BigDecimal getCurrentBalance() {
+
+	public BigDecimal getCurrentBalance() {
 		return currentBalance;
 	}
 	public void setCurrentBalance(BigDecimal currentBalance) {
