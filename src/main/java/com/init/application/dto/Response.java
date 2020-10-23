@@ -77,34 +77,44 @@ public class Response<T> {
         return response;
     }
 
-    public void addErrorMsgToResponse(String errorMsg, Exception ex) {
-        ResponseError error = new ResponseError()
-                .setDetails(errorMsg)
-                .setMessage(ex.getMessage())
-                .setTimestamp(new Date(0));
-        setErrors(error);
-    }
+    
 
-    public enum Status {
+    public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public T getPayload() {
+		return payload;
+	}
+
+	public  void setPayload(T payload) {
+		this.payload = payload;
+	}
+
+	public Object getErrors() {
+		return errors;
+	}
+
+	public void setErrors(Object errors) {
+		this.errors = errors;
+	}
+
+	public Object getMetadata() {
+		return metadata;
+	}
+
+	public void setMetadata(Object metadata) {
+		this.metadata = metadata;
+	}
+
+	public enum Status {
         OK, BAD_REQUEST, UNAUTHORIZED, VALIDATION_EXCEPTION, EXCEPTION, WRONG_CREDENTIALS, ACCESS_DENIED, NOT_FOUND, DUPLICATE_ENTITY
     }
 
-    @Getter
-    @Accessors(chain = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class PageMetadata {
-        private int size;
-        private long totalElements;
-        private int totalPages;
-        private int number;
-
-        public PageMetadata(int size, long totalElements, int totalPages, int number) {
-            this.size = size;
-            this.totalElements = totalElements;
-            this.totalPages = totalPages;
-            this.number = number;
-        }
-    }
+    
 
 }

@@ -42,6 +42,7 @@ public class AccountServiceImpl implements AccountService {
     public Transaction sendMoney(
             TransferBalanceRequest transferBalanceRequest
     ) {
+    	Transaction transaction = new Transaction();
         String fromAccountName = transferBalanceRequest.getFromAccountName();
         String toAccountNumber = transferBalanceRequest.getToAccountName();
         BigDecimal amount = transferBalanceRequest.getAmount();
@@ -56,8 +57,8 @@ public class AccountServiceImpl implements AccountService {
             accountRepository.save(fromAccount);
             toAccount.setBalance(toAccount.getBalance().add(amount));
             accountRepository.save(toAccount);
-            Transaction transaction = transactionRepository.save(new Transaction(0L,fromAccountName,amount,new Timestamp(System.currentTimeMillis())));
-            return transaction;
+            Transaction finalTransaction = transactionRepository.saveAndFlush(transaction);
+            return finalTransaction;
         }
         return null;
     }
@@ -65,7 +66,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountStatement getStatement(String accountName) {
         Account account = accountRepository.findByAccountNameEquals(accountName);
-        return new AccountStatement(account.getBalance(),transactionRepository.findByAccountNameEquals(accountName));
+        AccountStatement newStatement = new  AccountStatement();
+        return new AccountStatement();
+        		
+        		
     }
 
 }

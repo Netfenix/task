@@ -8,10 +8,11 @@ import com.init.application.entity.Account;
 import com.init.application.entity.Transaction;
 
 public interface AccountService {
-    List<Account> findAll();
+    
+	List<Account> findAll();
     Account save(Account account);
     Transaction sendMoney(
             TransferBalanceRequest transferBalanceRequest
     );
-    AccountStatement getStatement(String accountNumber);
+    AccountStatement getStatement(String accountName);
 }
